@@ -1,4 +1,7 @@
+<!--左右联动实现方法:计算每个listgroup的可滚动高度，滚动时监听滚动位置，求出相邻listgroup的高度差值并与滚动位置区间比较，可以算出滚动到哪个index,-->
+
 <template>
+  <!--监听scroll组件的scroll事件-->
   <scroll @scroll="scroll"
           :listen-scroll="listenScroll"
           :probe-type="probeType"
@@ -69,6 +72,7 @@
       }
     },
     created() {
+      // 无需监听这些属性的变化，所以不写在data里
       this.probeType = 3
       this.listenScroll = true
       this.touch = {}
@@ -78,8 +82,9 @@
       selectItem(item) {
         this.$emit('select', item)
       },
+      // 点击滚动
       onShortcutTouchStart(e) {
-        let anchorIndex = getData(e.target, 'index')
+        let anchorIndex = getData(e.target, 'index') // 获取dom上的index属性
         let firstTouch = e.touches[0]
         this.touch.y1 = firstTouch.pageY
         this.touch.anchorIndex = anchorIndex
@@ -89,7 +94,7 @@
       onShortcutTouchMove(e) {
         let firstTouch = e.touches[0]
         this.touch.y2 = firstTouch.pageY
-        let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
+        let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0 // |0是向下取整
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta
 
         this._scrollTo(anchorIndex)
@@ -97,9 +102,11 @@
       refresh() {
         this.$refs.listview.refresh()
       },
+      // scroll插件发来的scroll方法
       scroll(pos) {
         this.scrollY = pos.y
       },
+      // 计算每个group的高度
       _calculateHeight() {
         this.listHeight = []
         const list = this.$refs.listGroup
@@ -107,11 +114,13 @@
         this.listHeight.push(height)
         for (let i = 0; i < list.length; i++) {
           let item = list[i]
-          height += item.clientHeight
+          height += item.clientHeight // 累加高度
           this.listHeight.push(height)
         }
       },
+      // 滚动到下标为index的地方
       _scrollTo(index) {
+        // 边界处理
         if (!index && index !== 0) {
           return
         }
@@ -121,16 +130,20 @@
           index = this.listHeight.length - 2
         }
         this.scrollY = -this.listHeight[index]
-        this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
+        this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0) // 参数0是动画时间
       }
     },
     watch: {
-      data() {
+      data(d) {
+        // console.log(d)
+        // 延时是因为data变化到dom渲染有时间
         setTimeout(() => {
           this._calculateHeight()
         }, 20)
       },
+      // newY 是滚动位置
       scrollY(newY) {
+        // console.log(newY)
         const listHeight = this.listHeight
         // 当滚动到顶部，newY>0
         if (newY > 0) {
@@ -150,6 +163,7 @@
         // 当滚动到底部，且-newY大于最后一个元素的上限
         this.currentIndex = listHeight.length - 2
       },
+      // 固定title相关
       diff(newVal) {
         let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
         if (this.fixedTop === fixedTop) {

@@ -64,6 +64,7 @@
         this.$refs.recommend.style.bottom = bottom
         this.$refs.scroll.refresh()
       },
+      // 图片加载完成，调用scroll的refresh方法，可以正确获取scroll高度
       loadImage() {
         if (!this.checkloaded) {
           this.checkloaded = true

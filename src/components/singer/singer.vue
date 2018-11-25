@@ -9,7 +9,7 @@
   import ListView from 'base/listview/listview'
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
-  import Singer from 'common/js/singer'
+  import Singer from 'common/js/singer'  // 引入歌手类
   import {mapMutations} from 'vuex'
   import {playlistMixin} from 'common/js/mixin'
 
@@ -42,9 +42,11 @@
         getSingerList().then((res) => {
           if (res.code === ERR_OK) {
             this.singers = this._normalizeSinger(res.data.list)
+            // console.log(this.singers)
           }
         })
       },
+      // 提取歌手页数据
       _normalizeSinger(list) {
         let map = {
           hot: {

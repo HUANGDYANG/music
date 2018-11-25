@@ -1,3 +1,4 @@
+<!--二次封装better-scroll插件-->
 <template>
   <div ref="wrapper">
     <slot></slot>
@@ -44,6 +45,7 @@
       }, 20)
     },
     methods: {
+      // 初始化scroll参数
       _initScroll() {
         if (!this.$refs.wrapper) {
           return
@@ -52,7 +54,7 @@
           probeType: this.probeType,
           click: this.click
         })
-
+        // 监听滚动事件，发送滚动位置到外部
         if (this.listenScroll) {
           let me = this
           this.scroll.on('scroll', (pos) => {
@@ -84,6 +86,7 @@
         this.scroll && this.scroll.refresh()
       },
       scrollTo() {
+        // apply是因为scrollTo()有参数
         this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
       },
       scrollToElement() {
@@ -91,6 +94,7 @@
       }
     },
     watch: {
+      // 监听外部data变化，实时刷新
       data() {
         setTimeout(() => {
           this.refresh()

@@ -1,3 +1,5 @@
+// 封装了常用dom相关方法
+
 export function hasClass(el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
@@ -13,6 +15,7 @@ export function addClass(el, className) {
   el.className = newClass.join(' ')
 }
 
+// 有val传入，则设置dom元素属性，没有就获取元素属性
 export function getData(el, name, val) {
   const prefix = 'data-'
   if (val) {
