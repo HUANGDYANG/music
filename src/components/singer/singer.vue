@@ -1,6 +1,7 @@
 <template>
   <div class="singer" ref="singer">
     <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
+    <!--子路由-->
     <router-view></router-view>
   </div>
 </template>

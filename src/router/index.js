@@ -70,6 +70,7 @@ export default new Router({
     {
       path: '/singer',
       component: Singer,
+      // 子路由加id
       children: [
         {
           path: ':id',
