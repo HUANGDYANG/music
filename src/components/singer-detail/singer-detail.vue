@@ -10,6 +10,7 @@
   import {ERR_OK} from 'api/config'
   import {createSong} from 'common/js/song'
   import {mapGetters} from 'vuex'
+  import {getVkey} from 'api/vkey'
 
   export default {
     computed: {
@@ -40,7 +41,10 @@
         }
         getSingerDetail(this.singer.id).then((res) => {
           if (res.code === ERR_OK) {
+            console.log(res.data.list)
             this.songs = this._normalizeSongs(res.data.list)
+            console.log(this.songs)
+            //  todo
           }
         })
       },
@@ -49,6 +53,12 @@
         list.forEach((item) => {
           let {musicData} = item
           if (musicData.songid && musicData.albummid) {
+            getVkey(musicData.songid).then((res) => {
+              console.log('得到vkey', 1)
+              if (res.code === ERR_OK) {
+                console.log(res)
+              }
+            })
             ret.push(createSong(musicData))
           }
         })
