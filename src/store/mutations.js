@@ -1,3 +1,4 @@
+// mutation-tyes方便开发
 import * as types from './mutation-types'
 
 const mutations = {

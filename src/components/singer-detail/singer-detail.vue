@@ -20,6 +20,7 @@
         return this.singer.avatar
       },
       ...mapGetters([
+        // 挂载singer实例
         'singer'
       ])
     },
