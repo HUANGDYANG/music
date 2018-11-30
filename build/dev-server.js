@@ -24,7 +24,7 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 
 var apiRoutes = express.Router()
-
+// 后端代理浏览器显示向本地发送请求，实际转发到了第三方
 apiRoutes.get('/getDiscList', function (req, res) {
   var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
   // axios库在客户端发送ajax请求，服务端发送http(可传入header参数)请求

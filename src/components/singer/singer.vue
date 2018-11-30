@@ -90,6 +90,7 @@
         })
         return hot.concat(ret)
       },
+      // 映射set_singer方法，简化的语法糖
       ...mapMutations({
         setSinger: 'SET_SINGER'
       })
