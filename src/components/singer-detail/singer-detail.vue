@@ -10,7 +10,7 @@
   import {ERR_OK} from 'api/config'
   import {createSong} from 'common/js/song'
   import {mapGetters} from 'vuex'
-  // import {getVkey} from 'api/vkey'
+  import {getVkey} from 'api/vkey'
 
   export default {
     computed: {
@@ -51,16 +51,13 @@
         let ret = []
         list.forEach((item) => {
           let {musicData} = item
-          if (musicData.songid && musicData.albummid) {
-            //  todo
-            // getVkey(musicData.songid).then((res) => {
-            //   console.log('得到vkey', 1)
-            //   if (res.code === ERR_OK) {
-            //     console.log(res)
-            //   }
-            // })
-            ret.push(createSong(musicData))
-          }
+          getVkey(musicData.songmid).then((res) => {
+            // console.log('这首歌的vkey获取到了')
+            const vkey = res.data.items[0].vkey
+            if (musicData.songid && musicData.albummid) {
+              ret.push(createSong(musicData, vkey))
+            }
+          })
         })
         return ret
       }

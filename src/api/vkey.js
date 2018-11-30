@@ -1,24 +1,21 @@
-import {commonParams} from './config'
-import axios from 'axios'
+// import {commonParams} from './config'
+// import axios from 'axios'
+import jsonp from 'common/js/jsonp'
+export function getVkey(songmid) {
+  const url = 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg'
 
-export function getVkey(mid) {
-  const url = '/api/vkey'
-
-  const data = Object.assign({}, commonParams, {
-    g_tk: 5381,
-    loginUin: 0,
+  const data = Object.assign({}, {
+    callback: 'musicJsonCallback',
+    loginUin: 3051522991,
     format: 'jsonp',
-    songmid: mid,
     platform: 'yqq',
-    hostUin: 0,
-    needNewCode: 0
-    // jsonpCallback: callback,
-    // callback: callback
+    needNewCode: 0,
+    cid: 205361747,
+    uin: 3051522991,
+    guid: 5931742855,
+    songmid: songmid,
+    filename: `C400${songmid}.m4a`
   })
 
-  return axios.get(url, {
-    params: data
-  }).then((res) => {
-    return Promise.resolve(res.data)
-  })
+  return jsonp(url, data)
 }
