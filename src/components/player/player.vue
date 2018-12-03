@@ -120,7 +120,7 @@
     mixins: [playerMixin],
     data() {
       return {
-        songReady: false,
+        songReady: false, // 标志歌曲是否可以播放(异常处理)
         currentTime: 0,
         radius: 32,
         currentLyric: null,
@@ -228,7 +228,9 @@
           this.currentLyric.seek(0)
         }
       },
+      // 下一首：改变currentindex,触发currentSong改变，从而...
       next() {
+        console.log(this.playlist)
         if (!this.songReady) {
           return
         }
@@ -266,18 +268,22 @@
         }
         this.songReady = false
       },
+      // audio标签的监听事件
       ready() {
         this.songReady = true
         this.savePlayHistory(this.currentSong)
       },
+      // 歌曲加载失败，
       error() {
         this.songReady = true
       },
+      // 监听当前歌曲时间
       updateTime(e) {
         this.currentTime = e.target.currentTime
       },
+      // 转换时间戳
       format(interval) {
-        interval = interval | 0
+        interval = interval | 0 // 向下取整骚操作
         const minute = interval / 60 | 0
         const second = this._pad(interval % 60)
         return `${minute}:${second}`

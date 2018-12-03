@@ -31,16 +31,16 @@
     },
     methods: {
       progressTouchStart(e) {
-        this.touch.initiated = true
-        this.touch.startX = e.touches[0].pageX
-        this.touch.left = this.$refs.progress.clientWidth
+        this.touch.initiated = true // 标记
+        this.touch.startX = e.touches[0].pageX // 手指位置
+        this.touch.left = this.$refs.progress.clientWidth // 初始播放进度
       },
       progressTouchMove(e) {
         if (!this.touch.initiated) {
           return
         }
-        const deltaX = e.touches[0].pageX - this.touch.startX
-        const offsetWidth = Math.min(this.$refs.progressBar.clientWidth - progressBtnWidth, Math.max(0, this.touch.left + deltaX))
+        const deltaX = e.touches[0].pageX - this.touch.startX // 移动了多少
+        const offsetWidth = Math.min(this.$refs.progressBar.clientWidth - progressBtnWidth, Math.max(0, this.touch.left + deltaX)) // 求出偏移量:不能大于总进度条的值，不能小于0
         this._offset(offsetWidth)
       },
       progressTouchEnd() {
@@ -55,17 +55,20 @@
         // this._offset(e.offsetX)
         this._triggerPercent()
       },
+      // 派发事件传递百分比
       _triggerPercent() {
         const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
         const percent = this.$refs.progress.clientWidth / barWidth
         this.$emit('percentChange', percent)
       },
+      // 设置进度条和按钮偏移
       _offset(offsetWidth) {
         this.$refs.progress.style.width = `${offsetWidth}px`
         this.$refs.progressBtn.style[transform] = `translate3d(${offsetWidth}px,0,0)`
       }
     },
     watch: {
+      // 根据百分比显示长度，位置
       percent(newPercent) {
         if (newPercent >= 0 && !this.touch.initiated) {
           const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
