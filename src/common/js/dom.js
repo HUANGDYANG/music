@@ -24,8 +24,9 @@ export function getData(el, name, val) {
   return el.getAttribute(prefix + name)
 }
 
+// 根据浏览器自动加css前缀(js代码)
 let elementStyle = document.createElement('div').style
-
+// console.log(elementStyle)
 let vendor = (() => {
   let transformNames = {
     webkit: 'webkitTransform',

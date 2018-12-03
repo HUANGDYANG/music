@@ -1,3 +1,4 @@
+// 多次提交mutations用action
 import * as types from './mutation-types'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
@@ -9,6 +10,7 @@ function findIndex(list, song) {
   })
 }
 
+// 提交mutations，改变state，参数是json对象
 export const selectPlay = function ({commit, state}, {list, index}) {
   commit(types.SET_SEQUENCE_LIST, list)
   if (state.mode === playMode.random) {

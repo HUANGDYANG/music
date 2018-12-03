@@ -1,3 +1,4 @@
+<!--不用路由，通过v-show控制显示-->
 <template>
   <div class="player" v-show="playlist.length>0">
     <transition name="normal"
@@ -129,6 +130,7 @@
       }
     },
     computed: {
+      // 动态添加class控制动画
       cdCls() {
         return this.playing ? 'play' : 'play pause'
       },
@@ -144,6 +146,7 @@
       percent() {
         return this.currentTime / this.currentSong.duration
       },
+      // 只有mapGetters在computed里面
       ...mapGetters([
         'currentIndex',
         'fullScreen',
@@ -160,8 +163,9 @@
       open() {
         this.setFullScreen(true)
       },
+      // 动画钩子函数，
       enter(el, done) {
-        const {x, y, scale} = this._getPosAndScale()
+        const {x, y, scale} = this._getPosAndScale() // 得到光盘的相对初始位置
 
         let animation = {
           0: {
@@ -174,7 +178,7 @@
             transform: `translate3d(0,0,0) scale(1)`
           }
         }
-
+        // create-keyframe-animation 插件的使用
         animations.registerAnimation({
           name: 'move',
           animation,
@@ -194,7 +198,7 @@
         this.$refs.cdWrapper.style.transition = 'all 0.4s'
         const {x, y, scale} = this._getPosAndScale()
         this.$refs.cdWrapper.style[transform] = `translate3d(${x}px,${y}px,0) scale(${scale})`
-        this.$refs.cdWrapper.addEventListener('transitionend', done)
+        this.$refs.cdWrapper.addEventListener('transitionend', done) // 监听动画执行完成调用done执行下一步
       },
       afterLeave() {
         this.$refs.cdWrapper.style.transition = ''
@@ -429,7 +433,7 @@
       },
       playing(newPlaying) {
         const audio = this.$refs.audio
-        this.$nextTick(() => {
+        this.$nextTick(() => {  // 添加延迟原因:audio的src是异步获取的，刚开始找不到
           newPlaying ? audio.play() : audio.pause()
         })
       },

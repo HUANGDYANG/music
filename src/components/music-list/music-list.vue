@@ -73,9 +73,9 @@
       this.listenScroll = true
     },
     mounted() {
-      this.imageHeight = this.$refs.bgImage.clientHeight
-      this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT
-      this.$refs.list.$el.style.top = `${this.imageHeight}px`
+      this.imageHeight = this.$refs.bgImage.clientHeight // 背景图高度
+      this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT // 最小可滚动高度
+      this.$refs.list.$el.style.top = `${this.imageHeight}px` // 动态赋值scroll组件的top
     },
     methods: {
       handlePlaylist(playlist) {
@@ -89,6 +89,7 @@
       back() {
         this.$router.back()
       },
+      // 点击了哪首歌，通过action设置state
       selectItem(item, index) {
         this.selectPlay({
           list: this.songs,
@@ -107,25 +108,28 @@
     },
     watch: {
       scrollY(newVal) {
-        let translateY = Math.max(this.minTransalteY, newVal)
-        let scale = 1
-        let zIndex = 0
-        let blur = 0
-        const percent = Math.abs(newVal / this.imageHeight)
+        // bg-layer跟随滚动
+        let translateY = Math.max(this.minTranslateY, newVal) // 取可滚动最大值
+        let scale = 1  // 放大效果
+        let zIndex = 0 // js处理顶部zindex
+        let blur = 0  // 上滑模糊效果，苹果才能看到
+        const percent = Math.abs(newVal / this.imageHeight) // 图片放大算法
+        // 往下拉时图片放大
         if (newVal > 0) {
-          scale = 1 + percent
+          scale = 1 + percent // 图片放大算法
           zIndex = 10
         } else {
           blur = Math.min(20, percent * 20)
         }
 
-        this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`
+        this.$refs.layer.style[transform] = `translate3d(0,${translateY}px,0)` // 设置layer的位置
         this.$refs.filter.style[backdrop] = `blur(${blur}px)`
-        if (newVal < this.minTransalteY) {
+        // 向上滚动到临界值，背景图变化,zindex变化
+        if (newVal < this.minTranslateY) {
           zIndex = 10
           this.$refs.bgImage.style.paddingTop = 0
           this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
-          this.$refs.playBtn.style.display = 'none'
+          this.$refs.playBtn.style.display = 'none' // 播放按钮消失
         } else {
           this.$refs.bgImage.style.paddingTop = '70%'
           this.$refs.bgImage.style.height = 0

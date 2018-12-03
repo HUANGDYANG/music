@@ -27,6 +27,7 @@
       }
     },
     methods: {
+      // 基础组件只是派发事件
       selectItem(item, index) {
         this.$emit('select', item, index)
       },

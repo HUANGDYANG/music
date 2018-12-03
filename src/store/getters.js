@@ -1,3 +1,5 @@
+// 相当与计算属性
+
 export const singer = state => state.singer
 
 export const playing = state => state.playing
