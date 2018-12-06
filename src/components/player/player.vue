@@ -57,6 +57,7 @@
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
           <div class="operators">
+            <!--todo 没有找到chageMode函数-->
             <div class="icon i-left" @click="changeMode">
               <i :class="iconMode"></i>
             </div>
@@ -213,13 +214,16 @@
           this.currentLyric.togglePlay()
         }
       },
+      // audio标签歌曲结束触发
       end() {
         if (this.mode === playMode.loop) {
+          // 循环播放
           this.loop()
         } else {
           this.next()
         }
       },
+      // 循环播放，歌曲当前进度设置为0
       loop() {
         this.$refs.audio.currentTime = 0
         this.$refs.audio.play()
@@ -303,6 +307,7 @@
           if (this.currentSong.lyric !== lyric) {
             return
           }
+          // liric-parser插件
           this.currentLyric = new Lyric(lyric, this.handleLyric)
           if (this.playing) {
             this.currentLyric.play()
@@ -422,6 +427,7 @@
         if (!newSong.id) {
           return
         }
+        // 切换播放模式会触发currentSong改变，所以做此处理
         if (newSong.id === oldSong.id) {
           return
         }

@@ -10,10 +10,10 @@ function findIndex(list, song) {
   })
 }
 
-// 提交mutations，改变state，参数是json对象
+// 提交mutations，改变state，参数是json对象，commit和state参数是自带的
 export const selectPlay = function ({commit, state}, {list, index}) {
   commit(types.SET_SEQUENCE_LIST, list)
-  if (state.mode === playMode.random) {
+  if (state.mode === playMode.random) { // state是可以直接取到的，不用传入
     let randomList = shuffle(list)
     commit(types.SET_PLAYLIST, randomList)
     index = findIndex(randomList, list[index])

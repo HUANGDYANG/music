@@ -12,11 +12,11 @@
 <script type="text/ecmascript-6">
   export default {
     props: {
-      radius: {
+      radius: {  // 半径
         type: Number,
         default: 100
       },
-      percent: {
+      percent: { // 进度百分比
         type: Number,
         default: 0
       }
@@ -27,7 +27,7 @@
       }
     },
     computed: {
-      dashOffset() {
+      dashOffset() {  // 改变此值进度条将改变
         return (1 - this.percent) * this.dashArray
       }
     }

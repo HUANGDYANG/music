@@ -48,7 +48,7 @@
         this._triggerPercent()
       },
       progressClick(e) {
-        const rect = this.$refs.progressBar.getBoundingClientRect()
+        const rect = this.$refs.progressBar.getBoundingClientRect() // 进度条到屏幕左边的距离
         const offsetWidth = e.pageX - rect.left
         this._offset(offsetWidth)
         // 这里当我们点击 progressBtn 的时候，e.offsetX 获取不对

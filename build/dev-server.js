@@ -53,14 +53,15 @@ apiRoutes.get('/lyric', function (req, res) {
     params: req.query
   }).then((response) => {
     var ret = response.data
+    // 如果返回jsonp回调字符串
     if (typeof ret === 'string') {
-      var reg = /^\w+\(({[^()]+})\)$/
+      var reg = /^\w+\(({[^()]+})\)$/ // 匹配 {不包含()的内容} 的字符串 中间的^()表示不能是括号
       var matches = ret.match(reg)
       if (matches) {
         ret = JSON.parse(matches[1])
       }
     }
-    res.json(ret)
+    res.json(ret) //后端代理服务器处理jsonp后返回json给前端
   }).catch((e) => {
     console.log(e)
   })
