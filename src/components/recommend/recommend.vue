@@ -71,6 +71,7 @@
           this.$refs.scroll.refresh()
         }
       },
+      // 跳转到子路由
       selectItem(item) {
         this.$router.push({
           path: `/recommend/${item.dissid}`

@@ -18,7 +18,7 @@
   const HOT_NAME = '热门'
 
   export default {
-    mixins: [playlistMixin],
+    mixins: [playlistMixin], // 处理相同逻辑，mini播放器
     data() {
       return {
         singers: []
@@ -28,6 +28,7 @@
       this._getSingerList()
     },
     methods: {
+      // 从新布置scroll组件
       handlePlaylist(playlist) {
         const bottom = playlist.length > 0 ? '60px' : ''
         this.$refs.singer.style.bottom = bottom

@@ -1,3 +1,4 @@
+// 相同逻辑可以用mixin
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'

@@ -1,3 +1,4 @@
+<!--歌曲排行榜列表-->
 <template>
   <transition name="slide">
     <music-list :rank="rank" :title="title" :bg-image="bgImage" :songs="songs"></music-list>
@@ -10,6 +11,7 @@
   import {ERR_OK} from 'api/config'
   import {mapGetters} from 'vuex'
   import {createSong} from 'common/js/song'
+  import {getVkey} from 'api/vkey'
 
   export default {
     computed: {
@@ -51,9 +53,17 @@
         let ret = []
         list.forEach((item) => {
           const musicData = item.data
-          if (musicData.songid && musicData.albummid) {
-            ret.push(createSong(musicData))
-          }
+
+          getVkey(musicData.songmid).then((res) => {
+            // console.log('这首歌的vkey获取到了')
+            const vkey = res.data.items[0].vkey
+            if (musicData.songid && musicData.albummid) {
+              ret.push(createSong(musicData, vkey))
+            }
+          })
+          // if (musicData.songid && musicData.albummid) {
+          //   ret.push(createSong(musicData))
+          // }
         })
         return ret
       }

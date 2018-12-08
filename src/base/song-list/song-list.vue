@@ -21,7 +21,7 @@
         type: Array,
         default: []
       },
-      rank: {
+      rank: { // 设置是否开启排行样式
         type: Boolean,
         default: false
       }

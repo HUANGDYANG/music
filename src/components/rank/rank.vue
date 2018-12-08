@@ -1,3 +1,4 @@
+<!--各种榜单-->
 <template>
   <div class="rank" ref="rank">
     <scroll :data="topList" class="toplist" ref="toplist">

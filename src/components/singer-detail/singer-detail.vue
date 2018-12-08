@@ -48,9 +48,11 @@
         })
       },
       _normalizeSongs(list) {
+        // console.log(list)
         let ret = []
         list.forEach((item) => {
           let {musicData} = item
+          // console.log(musicData)
           getVkey(musicData.songmid).then((res) => {
             // console.log('这首歌的vkey获取到了')
             const vkey = res.data.items[0].vkey

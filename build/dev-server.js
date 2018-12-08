@@ -42,6 +42,23 @@ apiRoutes.get('/getDiscList', function (req, res) {
   })
 })
 
+apiRoutes.get('/getSongList', function (req, res) {
+  var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  // axios库在客户端发送ajax请求，服务端发送http(可传入header参数)请求
+  axios.get(url, {
+    headers: {
+      // 发送http请求在header加入参数躲避QQ音乐referer,host校验
+      referer: 'https://c.y.qq.com/',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  }).then((response) => {
+    res.json(response.data)
+  }).catch((e) => {
+    console.log(e)
+  })
+})
+
 apiRoutes.get('/lyric', function (req, res) {
   var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
 

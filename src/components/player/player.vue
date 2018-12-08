@@ -33,6 +33,7 @@
               <div class="playing-lyric">{{playingLyric}}</div>
             </div>
           </div>
+          <!--歌词显示-->
           <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
             <div class="lyric-wrapper">
               <div v-if="currentLyric">
@@ -318,11 +319,13 @@
           this.currentLineNum = 0
         })
       },
+      // 插件的回调函数
       handleLyric({lineNum, txt}) {
         this.currentLineNum = lineNum
+        // 如果歌词大于五行
         if (lineNum > 5) {
           let lineEl = this.$refs.lyricLine[lineNum - 5]
-          this.$refs.lyricList.scrollToElement(lineEl, 1000)
+          this.$refs.lyricList.scrollToElement(lineEl, 1000) // 让歌词居中
         } else {
           this.$refs.lyricList.scrollTo(0, 0, 1000)
         }
@@ -331,6 +334,7 @@
       showPlaylist() {
         this.$refs.playlist.show()
       },
+      // 歌词左右滑动交互
       middleTouchStart(e) {
         this.touch.initiated = true
         // 用来判断是否是一次移动
@@ -346,6 +350,7 @@
         const touch = e.touches[0]
         const deltaX = touch.pageX - this.touch.startX
         const deltaY = touch.pageY - this.touch.startY
+        // 视为上下滚动
         if (Math.abs(deltaY) > Math.abs(deltaX)) {
           return
         }
@@ -438,6 +443,7 @@
           this.currentLineNum = 0
         }
         clearTimeout(this.timer)
+        // 保证前后台切换时歌曲可以正常播放
         this.timer = setTimeout(() => {
           this.$refs.audio.play()
           this.getLyric()
