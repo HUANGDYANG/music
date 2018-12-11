@@ -1,3 +1,4 @@
+<!--搜索后的展示列表-->
 <template>
   <scroll ref="suggest"
           class="suggest"
@@ -33,6 +34,7 @@
   import {createSong} from 'common/js/song'
   import {mapMutations, mapActions} from 'vuex'
   import Singer from 'common/js/singer'
+  import {getVkey} from 'api/vkey'
 
   const TYPE_SINGER = 'singer'
   const perpage = 20
@@ -65,6 +67,7 @@
         this.page = 1
         this.hasMore = true
         this.$refs.suggest.scrollTo(0, 0)
+        // 调用接口
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
           if (res.code === ERR_OK) {
             this.result = this._genResult(res.data)
@@ -78,12 +81,19 @@
         }
         this.page++
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
+          // var arr = []
           if (res.code === ERR_OK) {
-            this.result = this.result.concat(this._genResult(res.data))
+            console.log('覆盖前', this.result)
+            // this.result = this.result.concat(this._genResult(res.data)) // 原来的做法在getvkey后不能实现
+            this.result = this._genResult(res.data)
+            console.log('覆盖后', this.result)
             this._checkMore(res.data)
           }
+          // arr.push(res)
+          // console.log(arr)
         })
       },
+      // 收起输入法:让input失去焦点
       listScroll() {
         this.$emit('listScroll')
       },
@@ -102,6 +112,7 @@
         }
         this.$emit('select', item)
       },
+      // 数据字段不一样，增加此处理
       getDisplayName(item) {
         if (item.type === TYPE_SINGER) {
           return item.singername
@@ -118,23 +129,45 @@
       },
       _genResult(data) {
         let ret = []
-        if (data.zhida && data.zhida.singerid) {
-          ret.push({...data.zhida, ...{type: TYPE_SINGER}})
-        }
+        // if (data.zhida && data.zhida.singerid) {
+        //   ret.push({...data.zhida, ...{type: TYPE_SINGER}}) // type是为了样式
+        // }
         if (data.song) {
-          ret = ret.concat(this._normalizeSongs(data.song.list))
+          // console.log(this._normalizeSongs(data.song.list))
+          // ret = ret.concat(this._normalizeSongs(data.song.list))
+          ret = this._normalizeSongs(data.song.list)
         }
+        // console.log(ret[0])
         return ret
       },
+      // todo then函数里面执行arr.push后arr不是正常的arr,arr[0]拿不到数据* :[Song, __ob__: Observer]和[Song]的区别
       _normalizeSongs(list) {
         let ret = []
-        list.forEach((musicData) => {
-          if (musicData.songid && musicData.albummid) {
-            ret.push(createSong(musicData))
-          }
+        list.forEach((musicData, index) => {
+          // console.log('11111', ret)
+
+          // if (musicData.songid && musicData.albummid) {
+          //   ret.push(createSong(musicData))
+          //   // console.log(musicData.songmid)
+          // }
+          let vkey
+          getVkey(musicData.songmid).then((res) => {
+            // console.log('这首歌的vkey获取到了')
+            vkey = res.data.items[0].vkey
+            if (musicData.songid && musicData.albummid) {
+              // console.log(createSong(musicData, vkey))
+              ret.push(createSong(musicData, vkey))
+              // console.log(ret)
+              // this.$set(ret, index, createSong(musicData, vkey))
+            }
+          })
         })
+        // console.log(ret)
+        // console.log(typeof ret)
+        // console.log(ret[0])
         return ret
       },
+      // 根据QQ返回的数据计算是否还有更多搜索项目
       _checkMore(data) {
         const song = data.song
         if (!song.list.length || (song.curnum + song.curpage * perpage) > song.totalnum) {

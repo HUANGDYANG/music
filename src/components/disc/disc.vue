@@ -42,26 +42,38 @@
           // console.log(res.cdlist[0].songlist)
           if (res.code === ERR_OK) {
             this.songs = this._normalizeSongs(res.cdlist[0].songlist)
+            // console.log(this.songs)
           }
         })
       },
       _normalizeSongs(list) {
         let ret = []
-        console.log(list)
+        let arr = []
+        // console.log(list)
         list.forEach((item) => {
           // let {musicData} = item
           // console.log(musicData)
+          arr.push(item)
           getVkey(item.songmid).then((res) => {
             // console.log('这首歌的vkey获取到了')
             const vkey = res.data.items[0].vkey
             if (item.songid && item.albummid) {
-              ret.push(createSong(item, vkey))
+              // console.log(item)
+              if (vkey) {
+                ret.push(createSong(item, vkey))
+                // console.log(ret)
+                // console.log(vkey)
+              }
             }
           })
           // if (musicData.songid && musicData.albummid) {
           //   ret.push(createSong(musicData))
           // }
         })
+        console.log('未解决的坑:', ret)
+        console.log('同样是数组，但不同', arr)
+        // console.log(typeof ret)
+        // console.log(ret[0])
         return ret
       }
     },

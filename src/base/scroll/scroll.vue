@@ -61,9 +61,11 @@
             me.$emit('scroll', pos)
           })
         }
-
+        // 上啦刷新
         if (this.pullup) {
+          // 滚动停止
           this.scroll.on('scrollEnd', () => {
+            // 判断位置
             if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
               this.$emit('scrollToEnd')
             }

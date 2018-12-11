@@ -23,6 +23,7 @@
              @touchmove.prevent="middleTouchMove"
              @touchend="middleTouchEnd"
         >
+          <!--display-inlineblock布局，可以实现左右滑动-->
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" :class="cdCls">
@@ -58,7 +59,7 @@
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
           <div class="operators">
-            <!--todo 没有找到chageMode函数-->
+            <!--chageMode函数在mixin里面-->
             <div class="icon i-left" @click="changeMode">
               <i :class="iconMode"></i>
             </div>
@@ -314,6 +315,7 @@
             this.currentLyric.play()
           }
         }).catch(() => {
+          // 异常情况处理
           this.currentLyric = null
           this.playingLyric = ''
           this.currentLineNum = 0

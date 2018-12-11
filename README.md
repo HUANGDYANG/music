@@ -11,3 +11,6 @@ common:公用方法，类，图片等
 ##playlist(songs)数据组件间的流动
 singer-detail=>music-list(点击歌曲触发事件,发送被点击歌曲的index和songs)=>vuex中的playlist
 songs是json数组，每组里面有歌曲名，歌曲连接，图片等
+
+##需要获取vkey的几个组件
+top-list singer-detail disc

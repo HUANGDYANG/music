@@ -46,7 +46,7 @@ export function createSong(musicData, vkey) {
     url: `http://dl.stream.qqmusic.qq.com/C400${musicData.songmid}.m4a?fromtag=38&guid=5931742855&vkey=${vkey}`
   })
 }
-
+// 歌手名变为字符串
 function filterSinger(singer) {
   let ret = []
   if (!singer) {

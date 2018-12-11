@@ -41,6 +41,7 @@ export const playerMixin = {
     ])
   },
   methods: {
+    // 播放方式
     changeMode() {
       const mode = (this.mode + 1) % 3
       this.setPlayMode(mode)

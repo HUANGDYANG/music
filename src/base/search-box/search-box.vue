@@ -33,6 +33,7 @@
       }
     },
     created() {
+      // 双向绑定用watch监听数据变化
       this.$watch('query', debounce((newQuery) => {
         this.$emit('query', newQuery)
       }, 200))
