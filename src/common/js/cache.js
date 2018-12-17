@@ -3,12 +3,13 @@ import storage from 'good-storage'
 const SEARCH_KEY = '__search__'
 const SEARCH_MAX_LEN = 15
 
-const PLAY_KEY = '__play__'
+const PLAY_KEY = '__play__'  // 最近播放
 const PLAY_MAX_LEN = 200
 
 const FAVORITE_KEY = '__favorite__'
 const FAVORITE_MAX_LEN = 200
 
+// 插入到第一条
 function insertArray(arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index === 0) {
@@ -29,7 +30,7 @@ function deleteFromArray(arr, compare) {
     arr.splice(index, 1)
   }
 }
-
+// 存搜索记录到本地
 export function saveSearch(query) {
   let searches = storage.get(SEARCH_KEY, [])
   insertArray(searches, query, (item) => {

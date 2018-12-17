@@ -89,9 +89,10 @@
       hide() {
         this.showFlag = false
       },
+      // song index 参数是基础组件传过来的
       selectSong(song, index) {
         if (index !== 0) {
-          this.insertSong(new Song(song))
+          this.insertSong(new Song(song)) // 这里的song是缓存里的，通过new Song就是正常的song实例了
           this.$refs.topTip.show()
         }
       },
