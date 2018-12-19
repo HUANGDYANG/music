@@ -14,3 +14,11 @@ songs是json数组，每组里面有歌曲名，歌曲连接，图片等
 
 ##需要获取vkey的几个组件
 top-list singer-detail disc suggest(有问题)
+
+##prod.server.js
+开启一个本地node服务器，9000端口，用于build后的代码
+
+## webpack.base.conf.js 里面配置别名
+dev-server.js是开发时前端服务器，可以设置代理等
+
+

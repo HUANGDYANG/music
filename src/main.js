@@ -8,8 +8,8 @@ import store from './store'
 
 import 'common/stylus/index.styl'
 
-/* eslint-disable no-unused-vars */
-// import vConsole from 'vconsole'
+// /* eslint-disable no-unused-vars */ // 规避eslint检测
+// import vConsole from 'vconsole'  // 手机端调试工具
 
 fastclick.attach(document.body)
 
