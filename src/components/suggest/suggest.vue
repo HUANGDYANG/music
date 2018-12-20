@@ -4,11 +4,15 @@
           class="suggest"
           :data="result"
           :pullup="pullup"
+          :pulldown="pulldown"
+          :probeType=probeType
           :beforeScroll="beforeScroll"
           @scrollToEnd="searchMore"
           @beforeScroll="listScroll"
+          @pulldownEnd = "searchMore"
   >
     <ul class="suggest-list">
+      <loading v-show="loading" title="正在加载下一页"></loading>
       <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
         <div class="icon">
           <i :class="getIconCls(item)"></i>
@@ -17,7 +21,7 @@
           <p class="text" v-html="getDisplayName(item)"></p>
         </div>
       </li>
-      <loading v-show="hasMore" title=""></loading>
+      <!--<loading v-show="hasMore" title=""></loading>-->
     </ul>
     <div v-show="!hasMore && !result.length" class="no-result-wrapper">
       <no-result title="抱歉，暂无搜索结果"></no-result>
@@ -53,7 +57,10 @@
     data() {
       return {
         page: 1,
-        pullup: true,
+        pullup: false, // 关闭上拉加载更多
+        pulldown: true,
+        probeType: 2,
+        loading: false,
         beforeScroll: true,
         hasMore: true,
         result: []
@@ -80,6 +87,7 @@
           return
         }
         this.page++
+        this.loading = true
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
           // var arr = []
           if (res.code === ERR_OK) {
@@ -88,6 +96,7 @@
             this.result = this._genResult(res.data)
             console.log('覆盖后', this.result)
             this._checkMore(res.data)
+            this.loading = false
           }
           // arr.push(res)
           // console.log(arr)

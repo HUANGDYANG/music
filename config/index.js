@@ -6,8 +6,8 @@ module.exports = {
     port: 9000,
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '',
+    assetsSubDirectory: 'static', // 除了 index.html 之外的静态资源要存放的路径，
+    assetsPublicPath: '/', // 代表打包后，index.html里面引用资源的的相对地址
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

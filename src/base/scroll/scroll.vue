@@ -30,6 +30,10 @@
         type: Boolean,
         default: false
       },
+      pulldown: {
+        type: Boolean,
+        default: false
+      },
       beforeScroll: {
         type: Boolean,
         default: false
@@ -71,7 +75,21 @@
             }
           })
         }
-
+        // 下拉刷新
+        if (this.pulldown) {
+          let flag = false
+          this.scroll.on('scroll', (pos) => {
+            if (pos.y > 10) {
+              flag = true
+            }
+          })
+          this.scroll.on('scrollEnd', () => {
+            if (flag) {
+              this.$emit('pulldownEnd')
+              flag = false
+            }
+          })
+        }
         if (this.beforeScroll) {
           this.scroll.on('beforeScrollStart', () => {
             this.$emit('beforeScroll')
