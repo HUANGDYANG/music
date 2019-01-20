@@ -1,5 +1,6 @@
 // 封装了常用dom相关方法
 
+// 判断dom元素有没有className
 export function hasClass(el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
@@ -9,8 +10,9 @@ export function addClass(el, className) {
   if (hasClass(el, className)) {
     return
   }
-
+  // 获取原来的class
   let newClass = el.className.split(' ')
+  // debugger
   newClass.push(className)
   el.className = newClass.join(' ')
 }

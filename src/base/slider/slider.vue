@@ -94,8 +94,9 @@
           snapThreshold: 0.3,
           snapSpeed: 400
         })
-
+        // 滚动完成一页，触发事件
         this.slider.on('scrollEnd', () => {
+          // 获取当前滚到第几页
           let pageIndex = this.slider.getCurrentPage().pageX
           if (this.loop) {
             pageIndex -= 1

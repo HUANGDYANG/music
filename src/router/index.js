@@ -3,11 +3,14 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const Recommend = (resolve) => {
-  import('components/recommend/recommend').then((module) => {
-    resolve(module)
-  })
-}
+// 路由懒加载，import返回promise
+
+// const Recommend = (resolve) => {
+//   import('components/recommend/recommend').then((module) => {
+//     resolve(module)
+//   })
+// }
+const Recommend = () => import('components/recommend/recommend')
 
 const Singer = (resolve) => {
   import('components/singer/singer').then((module) => {

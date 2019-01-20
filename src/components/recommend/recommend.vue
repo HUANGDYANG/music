@@ -2,10 +2,12 @@
   <div class="recommend" ref="recommend">
     <scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
+        <!--v-if 解决了slider组件获取dom的问题-->
         <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
-          <slider>
+          <slider :loop="isloop">
             <div v-for="item in recommends">
-              <a :href="item.linkUrl">
+              <!--<a :href="item.linkUrl">-->
+              <a>
                 <img class="needsclick" @load="loadImage" :src="item.picUrl">
               </a>
             </div>
@@ -49,7 +51,8 @@
     data() {
       return {
         recommends: [],
-        discList: []
+        discList: [],
+        isloop: true
       }
     },
     created() {
