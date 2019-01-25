@@ -189,9 +189,10 @@
           padding: 0 30px 0 20px
           overflow: hidden
           &.list-enter-active, &.list-leave-active
-            transition: all 0.1s
-          &.list-enter, &.list-leave-to
+            transition: all 0.3s
+          &.list-enter, &.list-leave-to // &.list-enter去掉不影响
             height: 0
+            opacity: 0
           .current
             flex: 0 0 20px
             width: 20px

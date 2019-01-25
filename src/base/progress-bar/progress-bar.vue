@@ -71,7 +71,10 @@
       // 根据百分比显示长度，位置
       percent(newPercent) {
         if (newPercent >= 0 && !this.touch.initiated) {
-          const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
+          // const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
+          // normal-player模式下clientWidth娶不到
+          // console.log(this.$refs.progressBar.clientWidth)
+          const barWidth = window.innerWidth * 0.8 - 30 * 2 - progressBtnWidth
           const offsetWidth = newPercent * barWidth
           this._offset(offsetWidth)
         }
